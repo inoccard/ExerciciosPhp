@@ -18,6 +18,8 @@ class TextWrapTest extends TestCase {
   public function setUp() {
     $this->resolucao = new Resolucao();
     $this->baseString = "Se vi mais longe foi por estar de pé sobre ombros de gigantes";
+    $this->baseLongString = "Lorem Ipsum é simplesmente uma simulação de texto indústria";
+    $this->baseLongString2 = "Existem variações disponíveis de passagens LoremIpsum mas a maioria sofreu algum tipo de alteração";
   }
 
   /**
@@ -67,4 +69,40 @@ class TextWrapTest extends TestCase {
     $this->assertEquals("gigantes", $ret[5]);
   }
 
+  /**
+  * Testa a quebra de linha para palavras longas.
+  *
+  * @covers Galoa\ExerciciosPhp\TextWrap\Resolucao::textWrap
+  */
+  public function testForLongWords() {
+    $ret = $this->resolucao->textWrap($this->baseLongString, 12);
+    $this->assertCount(7, $ret);
+    $this->assertEquals("Lorem Ipsum", $ret[0]);
+    $this->assertEquals("é", $ret[1]);
+    $this->assertEquals("simplesmente", $ret[2]);
+    $this->assertEquals("uma", $ret[3]);
+    $this->assertEquals("simulação", $ret[4]);
+    $this->assertEquals("de texto", $ret[5]);
+    $this->assertEquals("indústria", $ret[6]);
+  }
+  
+  /**
+  * Testa a quebra de linha para palavras longas.
+  *
+  * @covers Galoa\ExerciciosPhp\TextWrap\Resolucao::textWrap
+  */
+  public function testForLongWords2() {
+    $ret = $this->resolucao->textWrap($this->baseLongString2, 12);
+    $this->assertCount(10, $ret);
+    $this->assertEquals("Existem", $ret[0]);
+    $this->assertEquals("variações", $ret[1]);
+    $this->assertEquals("disponíveis", $ret[2]);
+    $this->assertEquals("de passagens", $ret[3]);
+    $this->assertEquals("LoremIpsum", $ret[4]);
+    $this->assertEquals("mas a", $ret[5]);
+    $this->assertEquals("maioria", $ret[6]);
+    $this->assertEquals("sofreu algum", $ret[7]);
+    $this->assertEquals("tipo de", $ret[8]);
+    $this->assertEquals("alteração",$ret[9]);
+  }
 }
